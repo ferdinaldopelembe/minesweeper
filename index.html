@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="game-grid" class="game-grid"></div>
+    <div id="gameover-mask" class="gameover-mask mask">
+        <div class="gameover-modal modal">
+            <h2>Game Over</h2>
+            <p>You stepped on a mine.</p>
+            <button onclick="startGame()" class="playagain-button" >new game</button>
+        </div>
+    </div>
+    <div id="youwin-mask" class="youwin-mask mask">
+        <div class="youwin-modal modal">
+            <h2>You Win</h2>
+            <p>zyou found all the mines.</p>
+            <button onclick="startGame()" class="playagain-button" >new game</button>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+</html>

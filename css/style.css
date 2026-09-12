@@ -1,0 +1,149 @@
+:root {
+    --blocked: #a6bdc4;
+    --unlocked: #8da3aa;
+    --grid-backgorund: #788d94;
+    --bomb: #cc4747b4;
+    --marked: #a3be6fc5;
+    --page-bg: #abc6ce91;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    transition: .6s .0s all ease-out;
+    border: none;
+    outline: none;
+    font-family: sans-serif;
+    user-select: none;
+}
+
+body {
+    display: grid;
+    place-items: center;
+    height: 100dvh;
+    transition: none;
+    background-color: var(--page-bg);
+}
+
+.game-grid {
+    background-color: var(--grid-backgorund);
+    display: grid;
+    gap: 2px;
+    width: 400px;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 4px;
+}
+
+.mask {
+    display: none;
+    /* q: #25647734; */
+    place-items: center;
+    width: 100dvw;
+    height: 100dvh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(2px);
+}
+
+.youwin-modal h2 {
+    color: #009900;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e3f1ff;
+    padding: 16px;
+    border-radius: 8px;
+    gap: 8px;
+    border: 1px solid #707470;
+    border-bottom: 2px solid #707470;
+    width: 238px;
+
+    /* position: absolute;
+    top: 20px; */
+}
+
+/* .modal h2 { font-size: 14pt; }
+.modal p, button { font-size: 12pt; } */
+
+.gameover-modal h2 {
+    color: #e22f2f;
+}
+
+.gameover-modal p {
+    font-size: 14px;
+}
+
+.playagain-button {
+    padding: 8px;
+    font-size: 14px;
+    background-color: var(--marked);
+    color: #000;
+    border-radius: 8px;
+    width: 100%;
+    border-bottom: 2px solid #758375;
+    cursor: pointer;
+}
+
+.playagain-button:hover {
+    background-color: #9ec751;
+}
+
+.playagain-button:active {
+    border-bottom: 1px solid #758375;
+    margin-bottom: 1px;
+}
+
+.cell {
+    font-size: 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 4px;
+    background-color: var(--blocked);
+    transition: none;
+    cursor: pointer;
+}
+
+.blocked:hover {
+    border: solid 2px #fdfdff4f;
+}
+
+.bomb {
+    background-color: var(--bomb);
+    border: solid 2px #fdfdff4f;
+}
+
+.unlocked {
+    background-color: var(--unlocked);
+    font-weight: bold;
+}
+.unlocked:hover {
+    border: none;
+}
+
+.marked {
+    transition: .6s .0s all ease-out;
+    border: solid 2px #fdfdff4f;
+    color: #992e0e;
+    background-color: var(--marked);
+    font-weight: bold;
+}
+
+.cell-1 {
+    color: blue;
+}
+.cell-2 {
+    color: #055505;
+}
+.cell-3 {
+    color: #bd0505;
+}
+.cell-4 {
+    color: #4f0372;
+}
