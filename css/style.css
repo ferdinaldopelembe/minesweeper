@@ -60,7 +60,6 @@ body {
     border-bottom: 1.5px solid var(--grid-backgorund);
 }
 
-
 .stat {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
@@ -85,7 +84,7 @@ body {
 .gameover::after {
     width: 400px;
     aspect-ratio: 1;
-    background-color: #6831272d;
+    background-color: transparent;
     content: "";
     position: absolute;
 }

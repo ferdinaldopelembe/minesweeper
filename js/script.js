@@ -15,6 +15,22 @@ var gameOver
 var winsCount = 0
 var timerInterval
 
+// i need a way to load the sounds before the game starts, so that they can be played without delay when needed. I will create Audio objects for each sound and preload them.
+var boomSound = new Audio('./../assets/sounds/boom.wav')
+var stepSound = new Audio('./../assets/sounds/step.wav')
+var markSound = new Audio('./../assets/sounds/mark.wav')
+var winSound  = new Audio('./../assets/sounds/win.wav')
+// Preload sounds
+boomSound.load()
+stepSound.load()
+markSound.load()
+winSound.load()
+
+function playSound(sound) {
+    sound.currentTime = 0
+    sound.play()
+}
+
 playAgainButton.onclick = startGame
 
 function initVars() {
@@ -119,10 +135,12 @@ function unlockCell(i, j) {
         gameOver = true
         handleGameOverMask(gameOver)
         clearInterval(timerInterval)
+        playSound(boomSound)
         unlockALlBombs()
     } else if (grid[i][j] !== 0) {
         cell.classList.add('unlocked',`cell-${grid[i][j]}`)
         cell.textContent = grid[i][j]
+        playSound(stepSound)
         unlocked[i][j] = true
     } else {
         floodFill(i, j)
@@ -137,6 +155,7 @@ function unlockALlBombs() {
             if (grid[i][j] === -1) {
                 const cell = document.getElementById(`${i}_${j}`)
                 cell.classList.add('bomb')
+                cell.classList.remove('marked')
                 cell.textContent = '💣'
                 unlocked[i][j] = true
             }
@@ -152,6 +171,8 @@ function floodFill(i, j) {
     const cell = document.getElementById(`${i}_${j}`)
     cell.classList.add('unlocked',`cell-${grid[i][j]}`)
     unlocked[i][j] = true
+
+    playSound(stepSound)
 
     if (grid[i][j] > 0) {
         cell.textContent = grid[i][j]
@@ -171,6 +192,7 @@ function markCell(i, j) {
     }
     const cell = document.getElementById(`${i}_${j}`)
     cell.textContent = marked[i][j] = cell.classList.toggle('marked') ? '⚑' : ''
+    playSound(marked[i][j] ? markSound : stepSound)
     checkVictory()
 }
 
@@ -194,8 +216,12 @@ function checkVictory() {
 
     if (markedCount + unclockedCount == GRID_SIZE * GRID_SIZE) {
         handleGameOverMask(true)
+        playSound(winSound)
         winsCount++
         updateStats()
+        setTimeout(() => {
+            startGame()
+        }, 1000)
     }
 }
 
