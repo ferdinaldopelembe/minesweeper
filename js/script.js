@@ -1,7 +1,8 @@
 const gameGrid = document.getElementById('game-grid')
-const gameOverMask = document.getElementById('gameover-mask')
-const youWinMask = document.getElementById('youwin-mask')
-const playAgainButtons = document.getElementsByClassName('playagain-button')
+const playAgainButton = document.getElementById('playagain-button')
+
+const time = document.getElementById('time')
+const wins = document.getElementById('wins')
 
 const GRID_SIZE= 10
 const DENSITY  = 0.1
@@ -11,17 +12,17 @@ var grid
 var marked
 var unlocked
 var gameOver
+var winsCount = 0
+var timerInterval
+
+playAgainButton.onclick = startGame
 
 function initVars() {
     gameOver = false
     grid = Array.from({ length: GRID_SIZE },() => Array(GRID_SIZE).fill(0))
     marked = Array.from({ length: GRID_SIZE },() => Array(GRID_SIZE).fill(false))
     unlocked = Array.from({ length: GRID_SIZE },() => Array(GRID_SIZE).fill(false))
-}
-
-function hideMasks() {
-    gameOverMask.style.display = 'none'
-    youWinMask.style.display = 'none'
+    handleGameOverMask(gameOver)
 }
 
 function createGridCells() {
@@ -98,6 +99,14 @@ function hasBombIn(i, j) {
     return grid[i][j] === -1
 }
 
+function handleGameOverMask(isGameOver) {
+    if (isGameOver) {
+        gameGrid.classList.add('gameover')
+    } else {
+        gameGrid.classList.remove('gameover')
+    }
+}
+
 function unlockCell(i, j) {
 
     if (!validateIndexes(i, j) || marked[i][j]) {
@@ -108,8 +117,9 @@ function unlockCell(i, j) {
 
     if (grid[i][j] === -1) {
         gameOver = true
+        handleGameOverMask(gameOver)
+        clearInterval(timerInterval)
         unlockALlBombs()
-        showModal(gameOver)
     } else if (grid[i][j] !== 0) {
         cell.classList.add('unlocked',`cell-${grid[i][j]}`)
         cell.textContent = grid[i][j]
@@ -164,11 +174,6 @@ function markCell(i, j) {
     checkVictory()
 }
 
-function showModal(itsGameOver) {
-    gameOverMask.style.display = itsGameOver ? 'grid' : 'none'
-    youWinMask.style.display = ! itsGameOver ? 'grid' : 'none'
-}
-
 function checkVictory() {
     let unclockedCount = 0
     let markedCount = 0
@@ -188,12 +193,28 @@ function checkVictory() {
     })
 
     if (markedCount + unclockedCount == GRID_SIZE * GRID_SIZE) {
-        showModal(gameOver)
+        handleGameOverMask(true)
+        winsCount++
+        updateStats()
     }
 }
 
+function updateStats() {
+    wins.textContent = String(winsCount).padStart(2, '0')
+}
+
+function initTimer() {
+    let timeAsSeconds = 0
+
+    clearInterval(timerInterval)
+    timerInterval = setInterval(() => {
+        time.textContent = String(timeAsSeconds).padStart(2,'0')
+        timeAsSeconds++
+    }, 1000)
+}
+
 function startGame() {
-    hideMasks()
+    initTimer()
     initVars()
     createGridCells()
     fillNumbers()

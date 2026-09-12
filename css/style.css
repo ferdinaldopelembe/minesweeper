@@ -1,5 +1,5 @@
 :root {
-    --blocked: #a6bdc4;
+    --blocked: #a5c0c9;
     --unlocked: #8da3aa;
     --grid-backgorund: #788d94;
     --bomb: #cc4747b4;
@@ -10,7 +10,7 @@
 * {
     margin: 0;
     box-sizing: border-box;
-    transition: .6s .0s all ease-out;
+    transition: .4s .0s all ease-out;
     border: none;
     outline: none;
     font-family: sans-serif;
@@ -18,11 +18,53 @@
 }
 
 body {
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     height: 100dvh;
     transition: none;
     background-color: var(--page-bg);
+}
+
+.game-header {
+    border-radius: 6px;
+    background-color: var(--unlocked);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 60px;
+    width: 400px;
+    padding: 16px;
+    border: 1px solid #4d5a66;
+    border-bottom: 2px solid #4d5a66;
+}
+
+.game-header button {
+    padding: 8px 12px;
+    background-color: var(--blocked);
+    color: #000;
+    border-radius: 4px;
+    border: 1px solid var(--grid-backgorund);
+    border-bottom: 2px solid var(--grid-backgorund);
+    cursor: pointer;
+}
+
+.game-header button:hover {
+    background-color: #b0cadf;
+}
+
+.game-header button:active {
+    border-bottom: 1.5px solid var(--grid-backgorund);
+}
+
+
+.stat {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 12pt;
 }
 
 .game-grid {
@@ -34,74 +76,22 @@ body {
     border-radius: 8px;
     overflow: hidden;
     padding: 4px;
+    position: relative;
+    border: 1px solid #4d5a66;
+    border-bottom: 2px solid #4d5a66;
 }
 
-.mask {
-    display: none;
-    /* q: #25647734; */
-    place-items: center;
-    width: 100dvw;
-    height: 100dvh;
+/* Game over Mask */
+.gameover::after {
+    width: 400px;
+    aspect-ratio: 1;
+    background-color: #6831272d;
+    content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    backdrop-filter: blur(2px);
-}
-
-.youwin-modal h2 {
-    color: #009900;
-}
-
-.modal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #e3f1ff;
-    padding: 16px;
-    border-radius: 8px;
-    gap: 8px;
-    border: 1px solid #707470;
-    border-bottom: 2px solid #707470;
-    width: 238px;
-
-    /* position: absolute;
-    top: 20px; */
-}
-
-/* .modal h2 { font-size: 14pt; }
-.modal p, button { font-size: 12pt; } */
-
-.gameover-modal h2 {
-    color: #e22f2f;
-}
-
-.gameover-modal p {
-    font-size: 14px;
-}
-
-.playagain-button {
-    padding: 8px;
-    font-size: 14px;
-    background-color: var(--marked);
-    color: #000;
-    border-radius: 8px;
-    width: 100%;
-    border-bottom: 2px solid #758375;
-    cursor: pointer;
-}
-
-.playagain-button:hover {
-    background-color: #9ec751;
-}
-
-.playagain-button:active {
-    border-bottom: 1px solid #758375;
-    margin-bottom: 1px;
 }
 
 .cell {
-    font-size: 20px;
+    font-size: 16pt;
     display: grid;
     place-items: center;
     border-radius: 4px;
@@ -128,7 +118,7 @@ body {
 }
 
 .marked {
-    transition: .6s .0s all ease-out;
+    transition: .4s .0s all ease-out;
     border: solid 2px #fdfdff4f;
     color: #992e0e;
     background-color: var(--marked);
