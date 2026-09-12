@@ -31,7 +31,10 @@ function playSound(sound) {
     sound.play()
 }
 
-playAgainButton.onclick = startGame
+playAgainButton.onclick = () => {
+    playSound(stepSound)
+    startGame()
+}
 
 function initVars() {
     gameOver = false
@@ -138,6 +141,9 @@ function unlockCell(i, j) {
         playSound(boomSound)
         unlockALlBombs()
     } else if (grid[i][j] !== 0) {
+        if (unlocked[i][j]) {
+            return
+        }
         cell.classList.add('unlocked',`cell-${grid[i][j]}`)
         cell.textContent = grid[i][j]
         playSound(stepSound)
@@ -221,7 +227,7 @@ function checkVictory() {
         updateStats()
         setTimeout(() => {
             startGame()
-        }, 1000)
+        }, 3000)
     }
 }
 
