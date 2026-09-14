@@ -4,9 +4,10 @@ const playAgainButton = document.getElementById('playagain-button')
 const time = document.getElementById('time')
 const wins = document.getElementById('wins')
 
-const GRID_SIZE= 10
+const GRID_ROWS = 50
+const GRID_COLS = 100
 const DENSITY  = 0.1
-const TOTAL_BOMBS = GRID_SIZE * GRID_SIZE * DENSITY
+const TOTAL_BOMBS = GRID_COLS * GRID_ROWS * DENSITY
 
 var grid
 var marked
@@ -16,10 +17,10 @@ var winsCount = 0
 var timerInterval
 
 // i need a way to load the sounds before the game starts, so that they can be played without delay when needed. I will create Audio objects for each sound and preload them.
-var boomSound = new Audio('./../assets/sounds/boom.wav')
-var stepSound = new Audio('./../assets/sounds/step.wav')
-var markSound = new Audio('./../assets/sounds/mark.wav')
-var winSound  = new Audio('./../assets/sounds/win.wav')
+var boomSound = new Audio('assets/sounds/boom.wav')
+var stepSound = new Audio('assets/sounds/step.wav')
+var markSound = new Audio('assets/sounds/mark.wav')
+var winSound  = new Audio('assets/sounds/win.wav')
 // Preload sounds
 boomSound.load()
 stepSound.load()
@@ -38,9 +39,9 @@ playAgainButton.onclick = () => {
 
 function initVars() {
     gameOver = false
-    grid = Array.from({ length: GRID_SIZE },() => Array(GRID_SIZE).fill(0))
-    marked = Array.from({ length: GRID_SIZE },() => Array(GRID_SIZE).fill(false))
-    unlocked = Array.from({ length: GRID_SIZE },() => Array(GRID_SIZE).fill(false))
+    grid = Array.from({ length: GRID_ROWS },() => Array(GRID_COLS).fill(0))
+    marked = Array.from({ length: GRID_ROWS },() => Array(GRID_COLS).fill(false))
+    unlocked = Array.from({ length: GRID_ROWS },() => Array(GRID_COLS).fill(false))
     handleGameOverMask(gameOver)
 }
 
@@ -50,8 +51,8 @@ function createGridCells() {
     while(mountedBombs < TOTAL_BOMBS) {
         var i, j;
         do {
-            i = Math.floor(Math.random()*GRID_SIZE)
-            j = Math.floor(Math.random()*GRID_SIZE)
+            i = Math.floor(Math.random()*GRID_ROWS)
+            j = Math.floor(Math.random()*GRID_COLS)
         } while(grid[i][j] === -1)
 
         grid[i][j] = -1
@@ -59,8 +60,8 @@ function createGridCells() {
     }
 
     gameGrid.innerHTML = ''
-    for (let i = 0; i < GRID_SIZE; i++) {
-        for (let j = 0; j < GRID_SIZE; j++) {
+    for (let i = 0; i < GRID_ROWS; i++) {
+        for (let j = 0; j < GRID_COLS; j++) {
             const cell = document.createElement('div')
             cell.setAttribute('id',`${i}_${j}`)
             cell.classList.add('cell', 'blocked')
@@ -73,13 +74,13 @@ function createGridCells() {
         }
     }
 
-    gameGrid.style.gridTemplateColumns = `repeat(${GRID_SIZE}, 1fr)`
-    gameGrid.style.gridTemplateRows    = `repeat(${GRID_SIZE}, 1fr)`
+    gameGrid.style.gridTemplateColumns = `repeat(${GRID_COLS}, 1fr)`
+    gameGrid.style.gridTemplateRows    = `repeat(${GRID_ROWS}, 1fr)`
 }
 
 function fillNumbers() {
-    for (let i = 0; i < GRID_SIZE; i++) {
-        for (let j = 0; j < GRID_SIZE; j++) {
+    for (let i = 0; i < GRID_ROWS; i++) {
+        for (let j = 0; j < GRID_COLS; j++) {
             if (grid[i][j] !== -1) {
                 const cell = document.getElementById(`${i}_${j}`)
                 const bombsCount = countBombsArround(i, j)
@@ -91,7 +92,7 @@ function fillNumbers() {
 }
 
 function validateIndexes(i, j) {
-    return (i >= 0 && i < GRID_SIZE && j >= 0 && j < GRID_SIZE)
+    return (i >= 0 && i < GRID_ROWS && j >= 0 && j < GRID_COLS)
 }
 
 function countBombsArround(i, j) {
@@ -156,8 +157,8 @@ function unlockCell(i, j) {
 }
 
 function unlockALlBombs() {
-    for (let i = 0; i < GRID_SIZE; i++) {
-        for (let j = 0; j < GRID_SIZE; j++) {
+    for (let i = 0; i < GRID_ROWS; i++) {
+        for (let j = 0; j < GRID_COLS; j++) {
             if (grid[i][j] === -1) {
                 const cell = document.getElementById(`${i}_${j}`)
                 cell.classList.add('bomb')
@@ -220,7 +221,7 @@ function checkVictory() {
         })
     })
 
-    if (markedCount + unclockedCount == GRID_SIZE * GRID_SIZE) {
+    if (markedCount + unclockedCount == GRID_COLS * GRID_COLS && !gameOver) {
         handleGameOverMask(true)
         playSound(winSound)
         winsCount++

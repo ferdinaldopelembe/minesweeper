@@ -1,10 +1,10 @@
 :root {
     --blocked: #a5c0c9;
-    --unlocked: #8da3aa;
-    --grid-backgorund: #788d94;
+    --unlocked: #91a8af49;
+    --grid-backgorund: #697b81;
     --bomb: #cc4747b4;
     --marked: #a3be6fc5;
-    --page-bg: #abc6ce91;
+    --page-bg: #97b1b9c5;
 }
 
 * {
@@ -20,8 +20,8 @@
 body {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: start;
+    justify-content: start;
     gap: 12px;
     height: 100dvh;
     transition: none;
@@ -29,17 +29,22 @@ body {
 }
 
 .game-header {
+    position: fixed;
+    bottom: 20px;
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    left: 50%;
+    transform: translateX(-50%);
     flex-direction: row;
     /* height: 6px; */
-    width: 400px;
+    width: 80vw;
+    max-width: 400px;
     padding: 6px;
-    background: linear-gradient(to bottom, #b1ced8, var(--unlocked));
+    /* background: linear-gradient(to bottom, #b1ced8, var(--unlocked));
     border: 1px solid #4d5a664b;
-    border-bottom: 2px solid var(--grid-backgorund);
+    border-bottom: 2px solid var(--grid-backgorund); */
 }
 
 .game-header button {
@@ -75,10 +80,10 @@ body {
     background-color: var(--grid-backgorund);
     display: grid;
     gap: 2px;
-    width: 400px;
-    aspect-ratio: 1;
+    /* max-width: 400px;
+    aspect-ratio: 1; */
     border-radius: 8px;
-    overflow: hidden;
+    /* overflow: hidden; */
     padding: 4px;
     position: relative;
     border: 1px solid #4d5a66;
@@ -95,6 +100,8 @@ body {
 }
 
 .cell {
+    width: 40px;
+    aspect-ratio: 1;
     font-size: 16pt;
     display: grid;
     place-items: center;
@@ -140,4 +147,36 @@ body {
 }
 .cell-4 {
     color: #4f0372;
+}
+
+@media (max-width: 600px) {
+    .cell {
+        font-size: 14pt;
+    }
+}
+
+@media (max-width: 460px) {
+    .cell {
+        font-size: 12pt !important;
+    }
+    .bomb {
+        font-size: 10pt !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .cell {
+        font-size: 10pt !important;
+    }
+    .bomb {
+        font-size: 8pt !important;
+    }
+}
+
+@media (max-width: 385px) {
+    .game-header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
 }
